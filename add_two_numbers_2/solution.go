@@ -1,8 +1,9 @@
 package add_two_numbers_2
 
 import (
-	"github.com/austingebauer/go-leetcode/structures"
 	"math/big"
+
+	"github.com/austingebauer/go-leetcode/structures"
 )
 
 func addTwoNumbers(l1 *structures.ListNode, l2 *structures.ListNode) *structures.ListNode {
