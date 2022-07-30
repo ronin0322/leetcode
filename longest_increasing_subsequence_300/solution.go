@@ -130,3 +130,30 @@ func isIncreasing(nums []int) bool {
 
 	return true
 }
+
+// runtime O(nlogn)
+
+func lengthOfLIS_2(nums []int) int {
+	stack := make([]int, 0, len(nums))
+	for _, x := range nums {
+		idx := search(stack, 0, len(stack), x)
+		if idx == len(stack) {
+			stack = append(stack, x)
+		} else {
+			stack[idx] = x
+		}
+	}
+	return len(stack)
+}
+
+func search(nums []int, left, right, target int) int {
+	if left >= right {
+		return left
+	}
+	mid := (right-left)/2 + left
+	if nums[mid] >= target {
+		return search(nums, left, mid, target)
+	} else {
+		return search(nums, mid+1, right, target)
+	}
+}
