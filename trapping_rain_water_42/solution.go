@@ -85,3 +85,31 @@ func trap2(height []int) int {
 
 	return waterCnt
 }
+
+func trap3(height []int) int {
+	left, right := 0, len(height)-1
+	leftMax, rightMax := height[left], height[right]
+	res := 0
+	for left < right {
+		if height[left] > leftMax {
+			leftMax = height[left]
+		}
+		if height[right] > rightMax {
+			rightMax = height[right]
+		}
+		if leftMax < rightMax {
+			left++
+			res += max(0, leftMax-height[left])
+		} else {
+			right--
+			res += max(0, rightMax-height[right])
+		}
+	}
+	return res
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
