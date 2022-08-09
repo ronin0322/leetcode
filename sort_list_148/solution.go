@@ -2,7 +2,7 @@
  * @Author: ronin0322
  * @Date: 2022-08-09 01:20:06
  * @LastEditors: ronin0322
- * @LastEditTime: 2022-08-09 01:20:06
+ * @LastEditTime: 2022-08-09 09:54:58
  * @FilePath: /leetcode/sort_list_148/solution.go
  * @Description:
  *
@@ -55,4 +55,72 @@ func merge(left *ListNode, right *ListNode) *ListNode {
 		head.Next = right
 	}
 	return root.Next
+}
+
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func sortList2(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+	prehead := &ListNode{Next: head}
+	l := 0
+	for cur := head; cur != nil; cur = cur.Next {
+		l++
+	}
+	for length := 1; length < l; length <<= 1 {
+		pre, cur := prehead, prehead.Next
+		for cur != nil {
+			head1 := cur
+			for i := 0; cur != nil && cur.Next != nil && i < length-1; i++ {
+				cur = cur.Next
+			}
+			head2 := cur.Next
+			cur.Next = nil
+			cur = head2
+			for i := 0; cur != nil && cur.Next != nil && i < length-1; i++ {
+				cur = cur.Next
+			}
+			nxt := cur
+			if cur != nil {
+				nxt = cur.Next
+				cur.Next = nil
+			}
+			// fmt.Println(head1.Val,head2.Val,pre.Val)
+			pre.Next = merge2(head1, head2)
+			cur = nxt
+			for pre.Next != nil {
+				pre = pre.Next
+				// fmt.Printf("%d ",pre.Val)
+			}
+			// fmt.Println()
+		}
+	}
+	return prehead.Next
+}
+func merge2(left, right *ListNode) *ListNode {
+	root := &ListNode{}
+	prehead := root
+	for left != nil && right != nil {
+		if left.Val < right.Val {
+			root.Next = left
+			left = left.Next
+		} else {
+			root.Next = right
+			right = right.Next
+		}
+		root = root.Next
+	}
+	if left != nil {
+		root.Next = left
+	}
+	if right != nil {
+		root.Next = right
+	}
+	return prehead.Next
 }
