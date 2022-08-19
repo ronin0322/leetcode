@@ -2,7 +2,7 @@
  * @Author: ronin0322
  * @Date: 2022-08-17 09:22:27
  * @LastEditors: ronin0322
- * @LastEditTime: 2022-08-17 09:49:00
+ * @LastEditTime: 2022-08-18 01:43:29
  * @FilePath: /leetcode/main.cpp
  * @Description:
  *
@@ -17,6 +17,41 @@ void pri(vector<int> &queue)
 {
     for (auto i = queue.begin(); i != queue.end(); i++)
         cout << *i << " " << endl;
+}
+int inSide(int x, int y, vector<vector<int>> arr)
+{
+    return x >= 0 && x < arr.size() && y >= 0 && y < arr.size();
+}
+void bfs(vector<vector<int>> arr)
+{
+
+    vector<int> dir = {0, 1, 0, -1, 0};
+    vector<vector<int>> sign(10, vector<int>(10, 0));
+    vector<vector<int>> queue;
+    queue.push_back({0, 0});
+    int l = 0;
+    for (; l < queue.size();)
+    {
+        int r = queue.size();
+        for (int i = l; i < r; i++)
+        {
+            auto cur = queue[i];
+            for (int k = 0; k < 4; k++)
+            {
+                auto xx = cur[0] + dir[k], yy = cur[1] + dir[k + 1];
+                if (inSide(xx, yy, arr) && sign[xx][yy] == 0)
+                {
+                    sign[xx][yy] = 1;
+                    queue.push_back({xx, yy});
+                }
+            }
+        }
+        l = r;
+    }
+    for (int i = 0; i < queue.size(); i++)
+        cout << arr[queue[i][0]][queue[i][1]] << " ";
+
+    cout << endl;
 }
 
 int main()
@@ -60,6 +95,16 @@ int main()
     cout << s.top() << endl;
     // cout << s.pop() << endl;
     cout << "stack" << endl;
-    
+    vector<vector<int>> arr(10, vector<int>(10, 1));
+    int brr[10] = {0, 1, 2, 4};
+    cout << sizeof(brr) << endl;
+    cout << length(arr) << endl;
+    vector<int>
+        brrr(brr, brr + sizeof(brr) / sizeof(int));
+    cout << brrr.size() << endl;
+    for (auto &x : brrr)
+        cout << x << " ";
+    cout << endl;
+    // bfs(arr);
     return 0;
 }
