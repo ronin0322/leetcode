@@ -1,8 +1,8 @@
 /*
  * @Author: ronin0322
- * @Date: 2022-09-03 21:43:42
+ * @Date: 2022-09-10 15:41:53
  * @LastEditors: ronin0322
- * @LastEditTime: 2022-09-09 00:28:04
+ * @LastEditTime: 2022-09-14 15:52:01
  * @FilePath: /leetcode/main.cc
  * @Description:
  *
@@ -12,16 +12,61 @@
 
 using namespace std;
 
+template <typename T>
+class Channel
+{
+public:
+    Channel() : cap_(0)
+    {
+    }
+    Channel(int cap) : cap_(cap)
+    {
+    }
+    void ToString()
+    {
+        cout << "hh" << endl;
+        for (auto x : data_)
+            cout << x << " ";
+        cout << endl;
+    }
+    void operator<<(T val)
+    {
+        if (mutex_.try_lock())
+        {
+            data_.push(val);
+            mutex_.unlock();
+        }
+    }
+
+    T Read()
+    {
+        T res;
+        if (mutex_.try_lock())
+        {
+            res = data_.front();
+            data_.pop();
+            mutex_.unlock();
+            return res;
+        }
+        return res;
+    }
+
+private:
+    mutex mutex_;
+    queue<T> data_;
+    int cap_;
+};
+
+vector<vector<int>> res;
+void add(vector<int> &path)
+{
+    res.push_back(path);
+}
+
 int main()
 {
-    string s = "abcabc";
-    s = "sd" + s + "d";
-    deque<pair<int, int>> que;
-    que.push_back({1, 2});
-    cout << que.back().first << endl;
-
-    map<int, int> data;
-    data[1] = 1;
-    cout << data.begin()->first;
-    // cout << a.getNum(s) << endl;
+    Channel<int> ch(1);
+    ch << 2;
+    cout << ch.Read() << endl;
+    return 0;
 }

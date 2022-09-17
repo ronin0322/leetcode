@@ -18,6 +18,9 @@
         "unordered_set": "cpp",
         "memory": "cpp",
         "initializer_list": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "thread": "cpp",
+        "bitset": "cpp",
+        "iosfwd": "cpp"
     }
 }
