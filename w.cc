@@ -2,7 +2,7 @@
  * @Author: ronin0322
  * @Date: 2022-09-14 15:52:31
  * @LastEditors: ronin0322
- * @LastEditTime: 2022-09-17 16:50:12
+ * @LastEditTime: 2022-09-17 17:21:26
  * @FilePath: /leetcode/w.cc
  * @Description:
  *
@@ -71,15 +71,16 @@ int main(int argc, char const *argv[])
     sort(arr_one.begin(), arr_one.end(), Compare);
     sort(arr_two.begin(), arr_two.end(), Compare);
     int pt1 = 0, sum1 = 0, pt2 = 0, sum2 = 0, res = 0;
-    map<int, int> stk, stk2;
+    priority_queue<int, vector<int>, greater<int>> stk, stk2;
+    // priority_queue<int, vector<int>, greater<int>> stk2;
 
     while (pt1 < arr_one.size() || pt2 < arr_two.size())
     {
         if (sum1 >= p && sum2 >= q)
         {
-            int end = min(stk.begin()->first, stk2.begin()->first);
+            int end = min(stk.top(), stk2.top());
             res += end - max(arr_one[pt1 - 1].l, arr_two[pt2 - 1].l) + 1;
-            if (stk.begin()->first <= end)
+            if (stk.top() <= end)
                 pt1++;
             else
                 pt2++;
@@ -87,34 +88,34 @@ int main(int argc, char const *argv[])
         }
         while (pt1 < arr_one.size() && sum1 < p)
         {
-            while (stk.size() > 0 && stk.begin()->first < arr_one[pt1].l)
+            while (stk.size() > 0 && stk.top() < arr_one[pt1].l)
             {
                 sum1--;
-                stk.erase(stk.begin()->first);
+                stk.pop();
             }
             sum1++;
-            stk[arr_one[pt1].r] = 1;
+            stk.push(arr_one[pt1].r);
             pt1++;
         }
         // cout << pt1 << "+" << sum1 << endl;
         while (pt2 < arr_two.size() && sum2 < q)
         {
-            while (stk2.size() > 0 && stk2.begin()->first < arr_two[pt2].l)
+            while (stk2.size() > 0 && stk2.top() < arr_two[pt2].l)
             {
                 sum2--;
-                stk2.erase(stk2.begin()->first);
+                stk2.pop();
             }
             sum2++;
-            stk2[arr_two[pt2].r] = 1;
+            stk2.push(arr_two[pt2].r);
             pt2++;
         }
         // cout << pt2 << "+" << sum2 << endl;
     }
     if (sum1 >= p && sum2 >= q)
     {
-        int end = min(stk.begin()->first, stk2.begin()->first);
+        int end = min(stk.top(), stk2.top());
         res += end - max(arr_one[pt1 - 1].l, arr_two[pt2 - 1].l) + 1;
-        if (stk.begin()->first <= end)
+        if (stk.top() <= end)
             pt1++;
         else
             pt2++;

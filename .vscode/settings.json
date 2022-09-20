@@ -21,6 +21,10 @@
         "regex": "cpp",
         "thread": "cpp",
         "bitset": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "functional": "cpp",
+        "istream": "cpp",
+        "type_traits": "cpp",
+        "typeinfo": "cpp"
     }
 }
