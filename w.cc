@@ -1,52 +1,34 @@
 /*
  * @Author: ronin0322
- * @Date: 2022-09-20 18:13:14
+ * @Date: 2022-09-27 20:23:53
  * @LastEditors: ronin0322
- * @LastEditTime: 2022-09-20 19:43:16
+ * @LastEditTime: 2022-09-28 14:38:24
  * @FilePath: /leetcode/w.cc
  * @Description:
  *
  * Copyright (c) 2022 by ronin0322, All Rights Reserved.
  */
-/* index.cpp */
 #include <bits/stdc++.h>
+
 using namespace std;
 
-bool check(long long *a, int x, int n, int m)
+int main(int argc, char const *argv[])
 {
-    int res = 0;
-    for (int i = 0; i < m; i++)
+    int n = 3;
+    vector<int> arr = {3, 2, 4, 3, 3};
+    // 33544 34655 34666 34677 34678
+    int res = 0, last = 0, lastnum = 0;
+    for (auto x : arr)
     {
-        res += ceil((double)a[i] / x);
-        // cout << a[i] << " " << x << " " << ceil((double)a[i] / x) << endl;
+        if (x <= last)
+        {
+            if (1 + last - x > 0)
+            {
+                res += 1 + last - x;
+            }
+        }
+        last = x;
     }
-    if (res <= n)
-        return true;
-    else
-        return false;
-}
-int main(int argc, char *argv[])
-{
-    int n, m;
-    n = 6;
-    m = 6;
-    long long arr[1000] = {1, 1, 1, 1, 1, 1};
-    long long sum = 0;
-    for (int i = 0; i < m; i++)
-    {
-        sum = max(arr[i], sum);
-    }
-
-    int l = arr[0], r = sum;
-    while (l < r)
-    {
-        int mid = ((r - l) / 2) + l;
-        if (check(arr, mid, n, m))
-            r = mid;
-        else
-            l = mid + 1;
-    }
-    cout << l << endl;
-    std::cout << "Hello World" << std::endl;
-    return (0);
+    cout << res << endl;
+    return 0;
 }
